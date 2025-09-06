@@ -1,10 +1,9 @@
+# Upgrade pip & build tools first (important for HuggingFace wheels)
 pip>=25.2
 setuptools>=70
 wheel>=0.43
 
-
-
-# Compatible with Python 3.13
+# Core dependencies
 streamlit==1.35.0
 streamlit-mic-recorder==0.0.8
 pymongo==4.3.3
@@ -19,14 +18,10 @@ requests==2.31.0
 # HuggingFace ecosystem
 transformers==4.44.2
 huggingface-hub>=0.23.2,<1.0
-tokenizers==0.19.1
+tokenizers==0.19.1  # prebuilt wheel for Python 3.12
 
-# PyTorch (CPU-only) for Python 3.13
+# PyTorch CPU-only
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.8.0+cpu
 torchaudio==2.8.0+cpu
 torchvision==0.23.0+cpu
-
-
-
-

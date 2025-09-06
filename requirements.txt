@@ -1,3 +1,8 @@
+pip>=25.1
+setuptools>=70.0
+wheel>=0.43
+
+
 # Compatible with Python 3.13
 streamlit==1.35.0
 streamlit-mic-recorder==0.0.8
@@ -20,5 +25,6 @@ tokenizers==0.19.1
 torch==2.8.0+cpu
 torchaudio==2.8.0+cpu
 torchvision==0.23.0+cpu
+
 
 

@@ -1,15 +1,18 @@
-streamlit
-streamlit-webrtc
-pymongo
-sentence-transformers
-torch
-torchvision
-torchaudio
-faiss-cpu
-numpy
-pydub
-gTTS
-deep-translator
-requests
-SpeechRecognition
-PyAudio
+# Requirements for Streamlit Temple Chatbot (Streamlit Cloud compatible)
+
+streamlit==1.30.0
+streamlit-mic-recorder==0.0.3
+pymongo==4.3.3
+sentence-transformers==2.2.2
+faiss-cpu==1.7.4
+numpy==1.26.0
+pydub==0.25.1
+gTTS==2.3.2
+deep-translator==1.11.1
+requests==2.31.0
+
+# PyTorch (CPU-only) from official index
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.8.0+cpu
+torchaudio==2.8.0+cpu
+torchvision==0.23.0+cpu

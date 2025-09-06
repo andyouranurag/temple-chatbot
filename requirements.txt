@@ -11,10 +11,16 @@ gTTS==2.3.2
 deep-translator==1.11.1
 requests==2.31.0
 
+
+# HuggingFace ecosystem (pinned for compatibility with sentence-transformers 2.2.2)
+transformers==4.28.1
+huggingface-hub==0.14.1
+tokenizers==0.13.3
+
 # PyTorch (CPU-only) from official index
 --extra-index-url https://download.pytorch.org/whl/cpu
-torch==2.8.0+cpu
-torchaudio==2.8.0+cpu
+torch==2.4.1+cpu
+torchaudio==2.4.1+cpu
 torchvision==0.23.0+cpu
 
 

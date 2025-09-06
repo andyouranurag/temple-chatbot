@@ -7,9 +7,7 @@ from gtts import gTTS
 import os
 import tempfile
 from deep_translator import GoogleTranslator
-import speech_recognition as sr
-from pydub import AudioSegment
-from streamlit_webrtc import webrtc_streamer, AudioProcessorBase, WebRtcMode
+from streamlit_mic_recorder import mic_recorder
 import pymongo
 import requests
 
@@ -89,7 +87,7 @@ data = load_dataset()
 docs = prepare_docs(data)
 index, embeddings = build_index(docs)
 
-# User input
+# ------------------ Text Input ------------------
 user_input = st.text_input("Ask me about a temple:")
 if user_input:
     translated_query = translate_text(user_input, "en")
@@ -125,24 +123,49 @@ if user_input:
     audio_file = open(tts_file, "rb")
     st.audio(audio_file.read(), format="audio/mp3")
 
-# ------------------ Voice Input via WebRTC ------------------
-class AudioProcessor(AudioProcessorBase):
-    def __init__(self):
-        self.recognizer = sr.Recognizer()
-
-    def recv_audio(self, frame):
-        audio = frame.to_ndarray().tobytes()
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as f:
-            f.write(audio)
-            f.flush()
-            try:
-                with sr.AudioFile(f.name) as source:
-                    audio_data = self.recognizer.record(source)
-                    text = self.recognizer.recognize_google(audio_data)
-                    st.session_state["voice_input"] = text
-            except:
-                pass
-        return frame
-
+# ------------------ Voice Input ------------------
 st.subheader("🎤 Voice Input")
-webrtc_streamer(key="speech", mode=WebRtcMode.SENDONLY, audio_processor_factory=AudioProcessor)
+
+voice_text = mic_recorder(
+    start_prompt="🎙️ Start Recording",
+    stop_prompt="⏹️ Stop Recording",
+    just_once=True,
+    use_container_width=True
+)
+
+if voice_text:
+    st.session_state["voice_input"] = voice_text
+    st.success(f"Recognized Voice Input: {voice_text}")
+
+    translated_query = translate_text(voice_text, "en")
+    result = search(translated_query, index, docs, data)
+
+    # Translate back to selected language
+    result_display = {
+        "Name": result.get("name", ""),
+        "Location": result.get("location", ""),
+        "Description": translate_text(result.get("description", ""), language),
+        "History": translate_text(result.get("history", ""), language),
+        "Architecture": translate_text(result.get("architecture", ""), language),
+        "Unique Features": translate_text(result.get("unique_features", ""), language)
+    }
+
+    st.subheader(result_display["Name"])
+    st.write(f"📍 Location: {result_display['Location']}")
+    st.write(f"🏛️ Architecture: {result_display['Architecture']}")
+    st.write(f"📖 History: {result_display['History']}")
+    st.write(f"✨ Unique Features: {result_display['Unique Features']}")
+
+    if result.get("image_url"):
+        st.image(result["image_url"], caption=result_display["Name"], use_container_width=True)
+
+    if result.get("latitude") and result.get("longitude"):
+        maps_api = os.getenv("GOOGLE_MAPS_API_KEY")
+        if maps_api:
+            map_url = f"https://maps.googleapis.com/maps/api/staticmap?center={result['latitude']},{result['longitude']}&zoom=14&size=600x400&markers=color:red%7C{result['latitude']},{result['longitude']}&key={maps_api}"
+            st.image(map_url, caption="Temple Location Map")
+
+    # TTS
+    tts_file = text_to_speech(" ".join(result_display.values()), lang=language)
+    audio_file = open(tts_file, "rb")
+    st.audio(audio_file.read(), format="audio/mp3")

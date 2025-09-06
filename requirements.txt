@@ -10,9 +10,9 @@ gTTS==2.3.2
 deep-translator==1.11.1
 requests==2.31.0
 
-# HuggingFace stack (new version, works with sentence-transformers 3.x)
+# HuggingFace ecosystem
 transformers==4.44.2
-huggingface-hub==0.23.0
+huggingface-hub>=0.23.2,<1.0
 tokenizers==0.19.1
 
 # PyTorch (CPU-only) for Python 3.13
@@ -20,4 +20,5 @@ tokenizers==0.19.1
 torch==2.8.0+cpu
 torchaudio==2.8.0+cpu
 torchvision==0.23.0+cpu
+
 

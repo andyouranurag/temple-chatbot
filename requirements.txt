@@ -1,9 +1,8 @@
-# Requirements for Streamlit Temple Chatbot (Python 3.13 / Streamlit Cloud)
-
-streamlit==1.30.0
+# Compatible with Python 3.13
+streamlit==1.35.0
 streamlit-mic-recorder==0.0.8
 pymongo==4.3.3
-sentence-transformers==2.2.2
+sentence-transformers==3.0.1
 faiss-cpu>=1.9.0
 numpy>=2.0.0
 pydub==0.25.1
@@ -11,12 +10,12 @@ gTTS==2.3.2
 deep-translator==1.11.1
 requests==2.31.0
 
-# HuggingFace ecosystem (compatible with sentence-transformers 2.2.2)
-transformers==4.28.1
-huggingface-hub==0.14.1
-tokenizers==0.13.3
+# HuggingFace stack (new version, works with sentence-transformers 3.x)
+transformers==4.44.2
+huggingface-hub==0.23.0
+tokenizers==0.19.1
 
-# PyTorch (CPU-only) from official index, built for Python 3.13
+# PyTorch (CPU-only) for Python 3.13
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.8.0+cpu
 torchaudio==2.8.0+cpu

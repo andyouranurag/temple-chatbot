@@ -12,7 +12,7 @@ import pymongo
 import requests
 
 # ------------------ MongoDB Connection ------------------
-MONGO_URI = os.getenv("MONGODB_URI", "mongodb+srv://andyouranurag:q2%284%2FA%5EKCsQE%5Eci@api.3qxqq.mongodb.net")
+MONGO_URI = os.getenv("MONGODB_URI", "mongodb+srv://andyouranurag:password@api.3qxqq.mongodb.net")
 client = pymongo.MongoClient(MONGO_URI)
 db = client["Cultural"]
 temple_collection = db["Dataset"]
@@ -169,3 +169,4 @@ if voice_text:
     tts_file = text_to_speech(" ".join(result_display.values()), lang=language)
     audio_file = open(tts_file, "rb")
     st.audio(audio_file.read(), format="audio/mp3")
+
